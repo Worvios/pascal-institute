@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { motion } from "framer-motion";
 
 const LoginPage = () => {
   const { isLoaded, isSignedIn, user } = useUser();
@@ -32,47 +33,98 @@ const LoginPage = () => {
   }, [isSignedIn, user, router]);
 
   return (
-    <div className="h-screen flex items-center justify-center bg-lamaSkyLight">
-      <SignIn.Root>
-        <SignIn.Step
-          name="start"
-          className="bg-white p-12 rounded-md shadow-2xl flex flex-col gap-2"
+    <div className="h-screen flex items-center justify-center bg-gradient-to-br from-purple-500 to-blue-600">
+      {/* Back to Homepage Button */}
+      <button
+        onClick={() => router.push("/")}
+        className="absolute top-6 left-6 bg-white text-purple-600 px-4 py-2 rounded-md shadow-lg hover:bg-purple-50 transition-all flex items-center gap-2"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-5 w-5"
+          viewBox="0 0 20 20"
+          fill="currentColor"
         >
-          <h1 className="text-xl font-bold flex items-center gap-2 justify-center">
-            <Image src="/logo.png" alt="" width={140} height={140} />
-          </h1>
-          <h2 className="text-gray-400">Sign in to your account</h2>
-          <Clerk.GlobalError className="text-sm text-red-400" />
-          <Clerk.Field name="identifier" className="flex flex-col gap-2">
-            <Clerk.Label className="text-xs text-gray-500">
-              Username
-            </Clerk.Label>
-            <Clerk.Input
-              type="text"
-              required
-              className="p-2 rounded-md ring-1 ring-gray-300"
-            />
-            <Clerk.FieldError className="text-xs text-red-400" />
-          </Clerk.Field>
-          <Clerk.Field name="password" className="flex flex-col gap-2">
-            <Clerk.Label className="text-xs text-gray-500">
-              Password
-            </Clerk.Label>
-            <Clerk.Input
-              type="password"
-              required
-              className="p-2 rounded-md ring-1 ring-gray-300"
-            />
-            <Clerk.FieldError className="text-xs text-red-400" />
-          </Clerk.Field>
-          <SignIn.Action
-            submit
-            className="bg-blue-500 text-white my-1 rounded-md text-sm p-[10px]"
-          >
-            Sign In
-          </SignIn.Action>
-        </SignIn.Step>
-      </SignIn.Root>
+          <path
+            fillRule="evenodd"
+            d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+            clipRule="evenodd"
+          />
+        </svg>
+        Back to Homepage
+      </button>
+
+      {/* Sign-In Card */}
+      <motion.div
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="bg-white p-8 rounded-xl shadow-2xl w-11/12 max-w-md"
+      >
+        <SignIn.Root>
+          <SignIn.Step name="start" className="flex flex-col gap-4">
+            {/* Logo and Title */}
+            <div className="flex flex-col items-center gap-2">
+              <Image
+                src="/logo.png"
+                alt="Logo"
+                width={100}
+                height={100}
+                className="rounded-full shadow-lg"
+              />
+              <h1 className="text-2xl font-bold text-purple-600">
+                Welcome Back!
+              </h1>
+              <p className="text-gray-500">Sign in to your account</p>
+            </div>
+
+            {/* Global Error */}
+            <Clerk.GlobalError className="text-sm text-red-500 text-center" />
+
+            {/* Username Field */}
+            <Clerk.Field name="identifier" className="flex flex-col gap-2">
+              <Clerk.Label className="text-sm text-gray-600">
+                Username
+              </Clerk.Label>
+              <Clerk.Input
+                type="text"
+                required
+                className="p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+              />
+              <Clerk.FieldError className="text-xs text-red-500" />
+            </Clerk.Field>
+
+            {/* Password Field */}
+            <Clerk.Field name="password" className="flex flex-col gap-2">
+              <Clerk.Label className="text-sm text-gray-600">
+                Password
+              </Clerk.Label>
+              <Clerk.Input
+                type="password"
+                required
+                className="p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+              />
+              <Clerk.FieldError className="text-xs text-red-500" />
+            </Clerk.Field>
+
+            {/* Sign-In Button */}
+            <SignIn.Action
+              submit
+              className="bg-purple-600 text-white p-3 rounded-lg font-semibold hover:bg-purple-700 transition-all"
+            >
+              Sign In
+            </SignIn.Action>
+
+            {/* Forgot Password Link */}
+            <p className="text-center text-sm text-gray-500">
+              Forgot your password?{" "}
+              <a href="#" className="text-purple-600 hover:underline">
+                Reset it here
+              </a>
+            </p>
+          </SignIn.Step>
+        </SignIn.Root>
+      </motion.div>
 
       {/* Toast Container for Error Messages */}
       <ToastContainer
@@ -85,6 +137,10 @@ const LoginPage = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
+        toastClassName="bg-white text-gray-800 shadow-lg"
+        progressStyle={{
+          background: "linear-gradient(to right, #9333ea, #4f46e5)",
+        }}
       />
     </div>
   );

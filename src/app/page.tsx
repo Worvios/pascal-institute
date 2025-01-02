@@ -100,6 +100,16 @@ export default function HomePage() {
     }
   };
 
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const handleDropdownEnter = () => {
+    setIsDropdownOpen(true);
+  };
+
+  const handleDropdownLeave = () => {
+    setIsDropdownOpen(false);
+  };
+
   return (
     <div className="h-screen overflow-y-auto scroll-smooth">
       {/* Header Section */}
@@ -152,29 +162,40 @@ export default function HomePage() {
             >
               Programs
             </Link>
-            <div className="relative group">
-              <button className="text-gray-700 hover:text-[#3b82f6] transition-colors">
+            <div className="relative">
+              <button
+                className="text-gray-700 hover:text-[#3b82f6] transition-colors"
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              >
                 More
               </button>
-              <div className="absolute hidden group-hover:block bg-white/20 backdrop-blur-md shadow-md rounded-md mt-2">
-                <Link
-                  href="#why-choose-us"
-                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100/20"
-                  onClick={(e) => smoothScroll(e, "why-choose-us")}
-                >
-                  Why Choose Us
-                </Link>
-                <Link
-                  href="#testimonials"
-                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100/20"
-                  onClick={(e) => smoothScroll(e, "testimonials")}
-                >
-                  Testimonials
-                </Link>
-              </div>
+              {isDropdownOpen && (
+                <div className="absolute bg-white/20 backdrop-blur-md shadow-md rounded-md mt-2">
+                  <Link
+                    href="#why-choose-us"
+                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100/20"
+                    onClick={(e) => {
+                      smoothScroll(e, "why-choose-us");
+                      setIsDropdownOpen(false); // Close the dropdown after clicking a link
+                    }}
+                  >
+                    Why Choose Us
+                  </Link>
+                  <Link
+                    href="#testimonials"
+                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100/20"
+                    onClick={(e) => {
+                      smoothScroll(e, "testimonials");
+                      setIsDropdownOpen(false); // Close the dropdown after clicking a link
+                    }}
+                  >
+                    Testimonials
+                  </Link>
+                </div>
+              )}
             </div>
             <Link
-              href="/login"
+              href="/sign-in"
               className="bg-[#3b82f6] px-4 py-2 rounded-md text-white hover:bg-[#2563eb] transition-colors"
             >
               Login/Signup
@@ -247,7 +268,7 @@ export default function HomePage() {
               Testimonials
             </Link>
             <Link
-              href="/login"
+              href="/sign-in"
               className="block px-4 py-2 text-gray-700 hover:bg-gray-100/20"
               onClick={() => setIsMobileMenuOpen(false)}
             >
@@ -256,6 +277,7 @@ export default function HomePage() {
           </div>
         )}
       </motion.header>
+
       {/* Hero Section */}
       <section
         id="hero"
@@ -282,7 +304,7 @@ export default function HomePage() {
               Register Now
             </Link>
             <Link
-              href="/login"
+              href="/sign-in"
               className="bg-transparent border border-white px-6 py-3 rounded-md text-white hover:bg-white hover:text-[#3b82f6] transition-colors cursor-pointer"
             >
               Login
@@ -511,14 +533,31 @@ export default function HomePage() {
         <p>© 2024 Pascal School. All rights reserved.</p>
       </footer>
 
-      {/* Back to Top Button */}
+      {/* Floating Back to Top Button */}
       {showBackToTop && (
-        <button
+        <motion.button
           onClick={scrollToTop}
-          className="fixed bottom-6 right-6 rounded-full w-12 h-12 p-0 bg-blue-500 text-white hover:bg-blue-600 transition-colors z-50 border-2 border-red-500"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 20 }}
+          transition={{ duration: 0.3 }}
+          className="fixed bottom-6 right-6 rounded-full w-12 h-12 p-0 bg-blue-500 text-white hover:bg-blue-600 transition-colors z-50 shadow-lg flex items-center justify-center"
         >
-          ↑
-        </button>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M5 10l7-7m0 0l7 7m-7-7v18"
+            />
+          </svg>
+        </motion.button>
       )}
 
       <ToastContainer />

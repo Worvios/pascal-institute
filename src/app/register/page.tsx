@@ -21,6 +21,7 @@ export default function Register() {
   const [gender, setGender] = useState<"male" | "female" | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [animationData, setAnimationData] = useState(null);
+  const [genderError, setGenderError] = useState(""); // State for gender validation error
   const router = useRouter();
 
   // Load the Lottie animation data
@@ -39,13 +40,22 @@ export default function Register() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Validate gender selection
+    if (!gender) {
+      setGenderError("Please select a gender."); // Set error message
+      return; // Stop form submission
+    }
+
+    // Clear gender error if gender is selected
+    setGenderError("");
+
     // Simulate form validation
     const isFormValid = true; // Replace with actual validation logic
 
     if (isFormValid) {
       setIsSubmitted(true); // Show the success animation
       toast.success(
-        "🎉 Registration successful! We&apos;ll contact you within 24 hours.",
+        "🎉 Registration successful! We'll contact you within 24 hours.",
         {
           position: "bottom-center", // Move toast to bottom-center
           autoClose: 5000, // Toast lasts for 5 seconds
@@ -191,6 +201,7 @@ export default function Register() {
                       value="male"
                       className="hidden"
                       onChange={() => setGender("male")}
+                      required // Make this field required
                     />
                     <FaMars
                       className={`${
@@ -213,6 +224,7 @@ export default function Register() {
                       value="female"
                       className="hidden"
                       onChange={() => setGender("female")}
+                      required // Make this field required
                     />
                     <FaVenus
                       className={`${
@@ -223,6 +235,10 @@ export default function Register() {
                     <span>Female</span>
                   </label>
                 </div>
+                {/* Gender Error Message */}
+                {genderError && (
+                  <p className="text-red-500 text-sm mt-1">{genderError}</p>
+                )}
 
                 {/* Address */}
                 <div className="flex items-center border rounded-lg p-3">
