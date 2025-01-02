@@ -5,6 +5,7 @@ import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import Link from "next/link";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Image from "next/image";
 
 export default function HomePage() {
   const [showBackToTop, setShowBackToTop] = useState(false);
@@ -116,7 +117,7 @@ export default function HomePage() {
         <div className="container mx-auto px-4 py-3 flex justify-between items-center">
           {/* School Logo and Name */}
           <div className="flex items-center space-x-3">
-            <img
+            <Image
               src="/Logo.png"
               alt="School Logo"
               className="w-20 h-20 rounded-full object-cover"
@@ -267,7 +268,9 @@ export default function HomePage() {
         </video>
         <div className="relative z-10">
           <h1 className="text-5xl font-bold mb-4">Welcome to Pascal Info</h1>
-          <p className="text-xl mb-8">C’est plus qu’une simple formation</p>
+          <p className="text-xl mb-8">
+            C&apos;est plus qu&apos;une simple formation
+          </p>
           <div className="space-x-4">
             <Link
               href="/register"
@@ -401,7 +404,7 @@ export default function HomePage() {
           >
             {" "}
             {/* LightPink */}
-            <img
+            <Image
               src="/staff1.png"
               alt="Principal"
               className="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
@@ -415,7 +418,7 @@ export default function HomePage() {
           >
             {" "}
             {/* SoftBlue */}
-            <img
+            <Image
               src="/staff2.png"
               alt="Vice Principal"
               className="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
@@ -429,7 +432,7 @@ export default function HomePage() {
           >
             {" "}
             {/* AccentOrange */}
-            <img
+            <Image
               src="/staff3.png"
               alt="Head of Academics"
               className="w-32 h-32 rounded-full mx-auto mb-4 object-cover"

@@ -26,7 +26,7 @@ const LoginPage = () => {
         toast.error("You are not registered. Please contact support.");
         setTimeout(() => {
           router.push("/");
-        }, 3000); // Redirect to homepage after 3 seconds
+        }, 5000); // Redirect to homepage after 3 seconds
       }
     }
   }, [isSignedIn, user, router]);
