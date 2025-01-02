@@ -8,12 +8,27 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      backdropBlur: {
+        md: "12px",
+      },
+      keyframes: {
+        "fade-in": {
+          "0%": { opacity: "0", transform: "translateY(10px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+      },
+      animation: {
+        "fade-in": "fade-in 0.5s ease-out",
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+
       colors: {
+        "pastel-purple": "#D8BFD8",
+        "pastel-blue": "#A7C7E7",
         SoftBlue: "#93c5fd",
         SoftGreen: "#d1fae5",
         LightPink: "#fbcfe8",
@@ -42,6 +57,7 @@ const config: Config = {
       },
     },
   },
+
   plugins: [],
 };
 export default config;

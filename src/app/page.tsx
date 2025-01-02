@@ -1,6 +1,7 @@
 "use client"; // Ensure this is a client component
 
 import { useState, useEffect } from "react";
+import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import Link from "next/link";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -9,6 +10,26 @@ export default function HomePage() {
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // State for mobile menu
   const [activeSection, setActiveSection] = useState("hero"); // State for active section
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true); // State for header visibility
+  const [isAtTop, setIsAtTop] = useState(true); // State to check if the page is at the top
+  const { scrollY } = useScroll();
+
+  // Update header visibility based on scroll direction
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const previous = scrollY.getPrevious() || 0;
+
+    // Hide header when scrolling down
+    if (latest > previous && latest > 50) {
+      setIsHeaderVisible(false);
+    }
+    // Show header when scrolling up
+    else if (latest < previous) {
+      setIsHeaderVisible(true);
+    }
+
+    // Check if the page is at the top
+    setIsAtTop(latest === 0);
+  });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -81,7 +102,17 @@ export default function HomePage() {
   return (
     <div className="h-screen overflow-y-auto scroll-smooth">
       {/* Header Section */}
-      <header className="fixed top-0 left-0 w-full bg-pascalLilacLight shadow-md z-50">
+      <motion.header
+        initial={{ y: 0, opacity: 1 }}
+        animate={{
+          y: isHeaderVisible ? 0 : -100,
+          opacity: isHeaderVisible ? 1 : 0,
+        }}
+        transition={{ type: "spring", stiffness: 100, damping: 20 }}
+        className={`fixed top-0 left-0 w-full z-50 ${
+          isAtTop ? "bg-transparent" : "bg-white/20 backdrop-blur-md"
+        } shadow-md`}
+      >
         <div className="container mx-auto px-4 py-3 flex justify-between items-center">
           {/* School Logo and Name */}
           <div className="flex items-center space-x-3">
@@ -119,17 +150,17 @@ export default function HomePage() {
               <button className="text-gray-700 hover:text-[#3b82f6] transition-colors">
                 More
               </button>
-              <div className="absolute hidden group-hover:block bg-white shadow-md rounded-md mt-2">
+              <div className="absolute hidden group-hover:block bg-white/20 backdrop-blur-md shadow-md rounded-md mt-2">
                 <Link
                   href="#why-choose-us"
-                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100/20"
                   onClick={(e) => smoothScroll(e, "why-choose-us")}
                 >
                   Why Choose Us
                 </Link>
                 <Link
                   href="#testimonials"
-                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100/20"
                   onClick={(e) => smoothScroll(e, "testimonials")}
                 >
                   Testimonials
@@ -137,7 +168,7 @@ export default function HomePage() {
               </div>
             </div>
             <Link
-              href="/sign-in" // Updated href to point to the sign-in page
+              href="/login"
               className="bg-[#3b82f6] px-4 py-2 rounded-md text-white hover:bg-[#2563eb] transition-colors"
             >
               Login/Signup
@@ -168,10 +199,10 @@ export default function HomePage() {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden bg-white shadow-md">
+          <div className="md:hidden bg-white/20 backdrop-blur-md shadow-md">
             <Link
               href="#about"
-              className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+              className="block px-4 py-2 text-gray-700 hover:bg-gray-100/20"
               onClick={(e) => {
                 smoothScroll(e, "about");
                 setIsMobileMenuOpen(false);
@@ -181,7 +212,7 @@ export default function HomePage() {
             </Link>
             <Link
               href="#programs"
-              className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+              className="block px-4 py-2 text-gray-700 hover:bg-gray-100/20"
               onClick={(e) => {
                 smoothScroll(e, "programs");
                 setIsMobileMenuOpen(false);
@@ -191,7 +222,7 @@ export default function HomePage() {
             </Link>
             <Link
               href="#why-choose-us"
-              className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+              className="block px-4 py-2 text-gray-700 hover:bg-gray-100/20"
               onClick={(e) => {
                 smoothScroll(e, "why-choose-us");
                 setIsMobileMenuOpen(false);
@@ -201,7 +232,7 @@ export default function HomePage() {
             </Link>
             <Link
               href="#testimonials"
-              className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+              className="block px-4 py-2 text-gray-700 hover:bg-gray-100/20"
               onClick={(e) => {
                 smoothScroll(e, "testimonials");
                 setIsMobileMenuOpen(false);
@@ -210,15 +241,15 @@ export default function HomePage() {
               Testimonials
             </Link>
             <Link
-              href="/sign-in" // Updated href to point to the sign-in page
-              className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+              href="/login"
+              className="block px-4 py-2 text-gray-700 hover:bg-gray-100/20"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Login/Signup
             </Link>
           </div>
         )}
-      </header>
+      </motion.header>
       {/* Hero Section */}
       <section
         id="hero"
@@ -245,7 +276,7 @@ export default function HomePage() {
               Register Now
             </Link>
             <Link
-              href="/sign-in" // Updated href to point to the sign-in page
+              href="/login"
               className="bg-transparent border border-white px-6 py-3 rounded-md text-white hover:bg-white hover:text-[#3b82f6] transition-colors cursor-pointer"
             >
               Login
