@@ -5,6 +5,7 @@ import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import Link from "next/link";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Image from "next/image";
 
 export default function HomePage() {
   const [showBackToTop, setShowBackToTop] = useState(false);
@@ -116,11 +117,16 @@ export default function HomePage() {
         <div className="container mx-auto px-4 py-3 flex justify-between items-center">
           {/* School Logo and Name */}
           <div className="flex items-center space-x-3">
-            <img
-              src="/Logo.png"
-              alt="School Logo"
-              className="w-20 h-20 rounded-full object-cover"
-            />
+            <div className="w-20 h-20 rounded-full overflow-hidden">
+              <Image
+                src="/Logo.png"
+                alt="School Logo"
+                width={80}
+                height={80}
+                className="w-full h-full object-cover"
+                priority
+              />
+            </div>
             <span className="text-xl font-bold text-[#3b82f6] font-dancingScript">
               Pascal School
             </span>
@@ -401,11 +407,15 @@ export default function HomePage() {
           >
             {" "}
             {/* LightPink */}
-            <img
-              src="/staff1.png"
-              alt="Principal"
-              className="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
-            />
+            <div className="w-32 h-32 rounded-full overflow-hidden mx-auto mb-4">
+              <Image
+                src="/staff1.png"
+                alt="Principal"
+                width={128}
+                height={128}
+                className="w-full h-full object-cover"
+              />
+            </div>
             <h3 className="text-xl font-bold mb-2">Principal</h3>
             <p>Dr. Sarah Johnson</p>
           </div>
@@ -415,11 +425,15 @@ export default function HomePage() {
           >
             {" "}
             {/* SoftBlue */}
-            <img
-              src="/staff2.png"
-              alt="Vice Principal"
-              className="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
-            />
+            <div className="w-32 h-32 rounded-full overflow-hidden mx-auto mb-4">
+              <Image
+                src="/staff2.png"
+                alt="Vice Principal"
+                width={128}
+                height={128}
+                className="w-full h-full object-cover"
+              />
+            </div>
             <h3 className="text-xl font-bold mb-2">Vice Principal</h3>
             <p>Mr. David Smith</p>
           </div>
@@ -429,11 +443,16 @@ export default function HomePage() {
           >
             {" "}
             {/* AccentOrange */}
-            <img
-              src="/staff3.png"
-              alt="Head of Academics"
-              className="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
-            />
+            <div className="w-32 h-32 rounded-full overflow-hidden mx-auto mb-4">
+              <Image
+                src="/staff3.png"
+                alt="Head of Academics"
+                width={128}
+                height={128}
+                className="w-full h-full object-cover"
+                priority
+              />
+            </div>
             <h3 className="text-xl font-bold mb-2">Head of Academics</h3>
             <p>Ms. Emily Brown</p>
           </div>

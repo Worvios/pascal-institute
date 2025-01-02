@@ -45,7 +45,7 @@ export default function Register() {
     if (isFormValid) {
       setIsSubmitted(true); // Show the success animation
       toast.success(
-        "🎉 Registration successful! We'll contact you within 24 hours.",
+        "🎉 Registration successful! We&apos;ll contact you within 24 hours.",
         {
           position: "bottom-center", // Move toast to bottom-center
           autoClose: 5000, // Toast lasts for 5 seconds
@@ -115,7 +115,7 @@ export default function Register() {
                       🎉 Registration Successful!
                     </p>
                     <p className="text-gray-600 mt-2">
-                      We'll contact you within 24 hours. Get ready for the
+                      We&apos;ll contact you within 24 hours. Get ready for the
                       adventure!
                     </p>
                     <button
