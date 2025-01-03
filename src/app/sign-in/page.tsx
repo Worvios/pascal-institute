@@ -37,7 +37,7 @@ const LoginPage = () => {
       {/* Back to Homepage Button */}
       <button
         onClick={() => router.push("/")}
-        className="absolute top-6 left-6 bg-white text-purple-600 px-4 py-2 rounded-md shadow-lg hover:bg-purple-50 transition-all flex items-center gap-2"
+        className="fixed top-6 left-6 bg-white text-purple-600 px-4 py-2 rounded-md shadow-lg hover:bg-purple-50 transition-all flex items-center gap-2 sm:top-4 sm:left-4 sm:px-3 sm:py-1.5 md:top-6 md:left-6 md:px-4 md:py-2"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -51,7 +51,7 @@ const LoginPage = () => {
             clipRule="evenodd"
           />
         </svg>
-        Back to Homepage
+        <span className="hidden sm:inline">Back to Homepage</span>
       </button>
 
       {/* Sign-In Card */}

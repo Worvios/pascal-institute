@@ -3,11 +3,11 @@ import BigCalendarContainer from "@/components/BigCalendarContainer";
 import prisma from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 
-
 const ParentPage = async () => {
-  const { userId } = auth();
+  const authResult = await auth(); // Await the auth() promise
+  const { userId } = authResult; // Destructure userId from the resolved value
   const currentUserId = userId;
-  
+
   const students = await prisma.student.findMany({
     where: {
       parentId: currentUserId!,

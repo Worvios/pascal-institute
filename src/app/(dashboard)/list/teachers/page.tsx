@@ -16,7 +16,8 @@ const TeacherListPage = async ({
 }: {
   searchParams: { [key: string]: string | undefined };
 }) => {
-  const { sessionClaims } = auth();
+  const authResult = await auth(); // Await the auth() promise
+  const { sessionClaims } = authResult; // Destructure sessionClaims from the resolved value
   const role = (sessionClaims?.metadata as { role?: string })?.role;
   const columns = [
     {

@@ -11,6 +11,11 @@ const config: Config = {
       backdropBlur: {
         md: "12px",
       },
+      fontFamily: {
+        "dancing-script": ["Dancing Script", "cursive"],
+        pacifico: ["Pacifico", "cursive"],
+        caveat: ["Caveat", "cursive"],
+      },
       keyframes: {
         "fade-in": {
           "0%": { opacity: "0", transform: "translateY(10px)" },

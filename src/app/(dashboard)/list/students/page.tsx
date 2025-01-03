@@ -18,7 +18,8 @@ const StudentListPage = async ({
 }: {
   searchParams: { [key: string]: string | undefined };
 }) => {
-  const { sessionClaims } = auth();
+  const authResult = await auth(); // Await the promise returned by auth()
+  const { sessionClaims } = authResult; // Destructure the awaited result
   const role = (sessionClaims?.metadata as { role?: string })?.role;
 
   const columns = [
