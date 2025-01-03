@@ -2,24 +2,28 @@ import prisma from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 
 const Announcements = async () => {
-  const authResult = await auth(); // Await the auth() promise
-  const { userId, sessionClaims } = authResult; // Destructure sessionClaims from the resolved value
+  // Await the auth() promise and destructure the result
+  const { userId, sessionClaims } = await auth();
+
+  // Safely extract the role from sessionClaims
   const role = (sessionClaims?.metadata as { role?: string })?.role;
 
+  // Define role-based conditions for filtering announcements
   const roleConditions = {
     teacher: { lessons: { some: { teacherId: userId! } } },
     student: { students: { some: { id: userId! } } },
     parent: { students: { some: { parentId: userId! } } },
   };
 
+  // Fetch announcements based on the user's role
   const data = await prisma.announcement.findMany({
     take: 3,
     orderBy: { date: "desc" },
     where: {
       ...(role !== "admin" && {
         OR: [
-          { classId: null },
-          { class: roleConditions[role as keyof typeof roleConditions] || {} },
+          { classId: null }, // Announcements without a specific class
+          { class: roleConditions[role as keyof typeof roleConditions] || {} }, // Role-specific announcements
         ],
       }),
     },
