@@ -2,7 +2,8 @@ import prisma from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 
 const Announcements = async () => {
-  const { userId, sessionClaims } = auth();
+  const authResult = await auth(); // Await the auth() promise
+  const { userId, sessionClaims } = authResult; // Destructure sessionClaims from the resolved value
   const role = (sessionClaims?.metadata as { role?: string })?.role;
 
   const roleConditions = {

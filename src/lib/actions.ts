@@ -9,6 +9,7 @@ import {
   TeacherSchema,
 } from "./formValidationSchemas";
 import prisma from "./prisma";
+
 import { clerkClient } from "@clerk/nextjs/server";
 
 type CurrentState = { success: boolean; error: boolean };
@@ -142,12 +143,17 @@ export const createTeacher = async (
   data: TeacherSchema
 ) => {
   try {
-    const user = await clerkClient.users.createUser({
+    // Use `await clerkClient()` to get the client instance
+    const client = await clerkClient();
+
+    // Create the user in Clerk
+
+    const user = await client.users.createUser({
       username: data.username,
       password: data.password,
       firstName: data.name,
       lastName: data.surname,
-      publicMetadata:{role:"teacher"}
+      publicMetadata: { role: "teacher" },
     });
 
     await prisma.teacher.create({
@@ -187,7 +193,11 @@ export const updateTeacher = async (
     return { success: false, error: true };
   }
   try {
-    const user = await clerkClient.users.updateUser(data.id, {
+    // Use `await clerkClient()` to get the client instance
+    const client = await clerkClient();
+
+    // Update the user in Clerk
+    const user = await client.users.updateUser(data.id, {
       username: data.username,
       ...(data.password !== "" && { password: data.password }),
       firstName: data.name,
@@ -231,14 +241,20 @@ export const deleteTeacher = async (
 ) => {
   const id = data.get("id") as string;
   try {
-    await clerkClient.users.deleteUser(id);
+    // Use `await clerkClient()` to get the client instance
+    const client = await clerkClient();
 
+    // Delete the user in Clerk
+    await client.users.deleteUser(id);
+
+    // Delete the teacher in your database
     await prisma.teacher.delete({
       where: {
         id: id,
       },
     });
 
+    // Revalidate the path if needed
     // revalidatePath("/list/teachers");
     return { success: true, error: false };
   } catch (err) {
@@ -253,6 +269,7 @@ export const createStudent = async (
 ) => {
   console.log(data);
   try {
+    // Check if the class has available capacity
     const classItem = await prisma.class.findUnique({
       where: { id: data.classId },
       include: { _count: { select: { students: true } } },
@@ -262,14 +279,19 @@ export const createStudent = async (
       return { success: false, error: true };
     }
 
-    const user = await clerkClient.users.createUser({
+    // Use `await clerkClient()` to get the client instance
+    const client = await clerkClient();
+
+    // Create the user in Clerk
+    const user = await client.users.createUser({
       username: data.username,
       password: data.password,
       firstName: data.name,
       lastName: data.surname,
-      publicMetadata:{role:"student"}
+      publicMetadata: { role: "student" },
     });
 
+    // Create the student in your database
     await prisma.student.create({
       data: {
         id: user.id,
@@ -289,6 +311,7 @@ export const createStudent = async (
       },
     });
 
+    // Revalidate the path if needed
     // revalidatePath("/list/students");
     return { success: true, error: false };
   } catch (err) {
@@ -305,13 +328,18 @@ export const updateStudent = async (
     return { success: false, error: true };
   }
   try {
-    const user = await clerkClient.users.updateUser(data.id, {
+    // Use `await clerkClient()` to get the client instance
+    const client = await clerkClient();
+
+    // Update the user in Clerk
+    const user = await client.users.updateUser(data.id, {
       username: data.username,
       ...(data.password !== "" && { password: data.password }),
       firstName: data.name,
       lastName: data.surname,
     });
 
+    // Update the student in your database
     await prisma.student.update({
       where: {
         id: data.id,
@@ -333,6 +361,8 @@ export const updateStudent = async (
         parentId: data.parentId,
       },
     });
+
+    // Revalidate the path if needed
     // revalidatePath("/list/students");
     return { success: true, error: false };
   } catch (err) {
@@ -347,14 +377,20 @@ export const deleteStudent = async (
 ) => {
   const id = data.get("id") as string;
   try {
-    await clerkClient.users.deleteUser(id);
+    // Use `await clerkClient()` to get the client instance
+    const client = await clerkClient();
 
+    // Delete the user in Clerk
+    await client.users.deleteUser(id);
+
+    // Delete the student in your database
     await prisma.student.delete({
       where: {
         id: id,
       },
     });
 
+    // Revalidate the path if needed
     // revalidatePath("/list/students");
     return { success: true, error: false };
   } catch (err) {

@@ -24,7 +24,8 @@ export type FormContainerProps = {
 const FormContainer = async ({ table, type, data, id }: FormContainerProps) => {
   let relatedData = {};
 
-  const { userId, sessionClaims } = auth();
+  const authResult = await auth(); // Await the auth() promise
+  const { sessionClaims, userId } = authResult; // Destructure sessionClaims from the resolved value
   const role = (sessionClaims?.metadata as { role?: string })?.role;
   const currentUserId = userId;
 
