@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": " prisma generate && next build ",
     "start": "next start",
     "lint": "next lint"
   },
@@ -49,6 +49,10 @@
     "typescript": "^5"
   },
   "prisma": {
-    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+    "engineFiles": {
+      "libquery-engine": "node_modules/@prisma/engines/libquery_engine-linux-arm64-openssl-1.1.x.so.node",
+      "migration-engine": "node_modules/@prisma/engines/migration-engine-linux-arm64-openssl-1.1.x"
+    },
+    "schema": "prisma/schema.prisma"
   }
 }
